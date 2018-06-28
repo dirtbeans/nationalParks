@@ -71,17 +71,51 @@ namespace Capstone
             if (cmdChoice < 3)
             {
                 PrintAllCampgrounds();
-            }
 
-            if (cmdChoice == 2)
-            {
-                SearchMenu();
+                if (cmdChoice == 2)
+                {
+                    SearchMenu();
+                }
             }
         }
 
         public void SearchMenu()
         {
+            Console.Write("Which campground (enter 0 to cancel)? ");
+            int campgroundNum = Convert.ToInt32(Console.ReadLine());
+            Console.Write("What is the arrival date? ");
+            DateTime arrivalDate = Convert.ToDateTime(Console.ReadLine());
+            Console.Write("What is the departure date? ");
+            DateTime departureDate = Convert.ToDateTime(Console.ReadLine());
 
+            SiteSqlDAL siteDAL = new SiteSqlDAL(connectionString);
+            List<Site> siteList = siteDAL.GetAvailableSites(campgroundNum, arrivalDate, departureDate);
+
+            foreach (Site site in siteList)
+            {
+                Console.WriteLine($"{site.Site_number}   {site.Max_occupancy}   " +
+                    $"{site.Accessible}  {site.Max_rv_length}  {site.Utilities}");
+            }
+            ReservationMenu(arrivalDate, departureDate);
+        }
+
+        public void ReservationMenu(DateTime arrivalDate, DateTime departureDate)
+        {
+            Console.Write("Which site should be reserved (enter 0 to cancel)? ");
+            int siteChoice = Convert.ToInt32(Console.ReadLine());
+            Console.Write("What name should the reservation be made under? ");
+            string customerName = Console.ReadLine();
+
+            ReserveCampsite(siteChoice, customerName, arrivalDate, departureDate);
+        }
+
+        public void ReserveCampsite(int choice, string name, DateTime arrivalDate, DateTime departureDate)
+        {
+            ReservationSqlDAL reserveDAL = new ReservationSqlDAL(connectionString);
+
+            int reservation_id = reserveDAL.InsertReservation(choice, name, arrivalDate, departureDate);
+
+            Console.WriteLine("The reservation has been made and the confirmation id is {" + reservation_id + "}");
         }
 
         public void PrintAllCampgrounds()
@@ -99,7 +133,6 @@ namespace Capstone
                     $"{ConvertMonthToString(campgroundList[i-1].Open_to_mm).ToString().PadRight(15)}" +
                     $"{campgroundList[i-1].Daily_fee.ToString("C2").PadLeft(10)}");
             }
-            Console.ReadLine();
         }
 
         public string ConvertMonthToString(int monthInt)

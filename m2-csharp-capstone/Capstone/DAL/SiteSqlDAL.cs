@@ -12,11 +12,52 @@ namespace Capstone.DAL
     class SiteSqlDAL
     {
         private string connectionString;
-        private const string SQL_GetReservation = @"SELECT s.site_number, s.max_occupancy, s.accessible, s.max_rv_length, s.utilities, s.campground_id, s.site_id FROM site s JOIN reservation r ON s.site_id = r.site_id WHERE(s.campground_id = 1) AND ((@varname1 < r.from_date AND @varname2 < r.to_date ) OR(@varname1 > r.from_date AND @varname2 > r.to_date )) GROUP BY s.site_number";
+        private const string SQL_GetAvailableSites = @"SELECT s.site_number, s.max_occupancy, s.accessible, s.max_rv_length, s.utilities, s.campground_id, s.site_id FROM site s WHERE(s.campground_id =1) AND s.site_id IN (SELECT r.site_id FROM reservation r WHERE (('07/01/2018' < r.from_date AND '01/01/2000' < r.to_date ) OR ('07/01/2018' > r.from_date AND '01/01/2000' > r.to_date )));";
 
         public SiteSqlDAL(string connectionString)
         {
             this.connectionString = connectionString;
+        }
+
+        public List<Site> GetAvailableSites(int campgroundNum, DateTime arrivalDate, DateTime departureDate)
+        {
+            List<Site> result = new List<Site>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(SQL_GetAvailableSites, conn);
+
+                    cmd.Parameters.AddWithValue("@campground_id", campgroundNum);
+                    cmd.Parameters.AddWithValue("@date1", arrivalDate.ToShortDateString());
+                    cmd.Parameters.AddWithValue("@date2", departureDate.ToShortDateString());
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Site s = new Site();
+                        s.Site_id = Convert.ToInt32(reader["site_id"]);
+                        s.Campground_id = Convert.ToInt32(reader["campground_id"]);
+                        s.Site_number = Convert.ToInt32(reader["site_number"]);
+                        s.Max_occupancy = Convert.ToInt32(reader["max_occupancy"]);
+                        s.Accessible= Convert.ToBoolean(reader["accessible"]);
+                        s.Max_rv_length = Convert.ToInt32(reader["max_rv_length"]);
+                        s.Utilities = Convert.ToBoolean(reader["utilities"]);
+
+                        result.Add(s);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+
+            return result;
         }
     }
 }

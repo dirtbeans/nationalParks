@@ -12,8 +12,9 @@ namespace Capstone.DAL
     class ReservationSqlDAL
     {
         private string connectionString;
-        private const string SQL_GetAllReservations = @"SELECT TOP FIVE  FROM sites WHERE "; //uhhhhh
-       
+        private const string SQL_GetAllReservations = @"SELECT TOP FIVE  FROM sites WHERE;"; //uhhhhh
+        private const string SQL_InsertReservation = @"INSERT INTO reservation VALUES (@site_id, @name, @from_date, @to_date, @create_date);";
+        private const string SQL_GrabReservationNumber = @"SELECT reservation_id FROM reservation WHERE site_id = @site_id, name = @name, from_date = @from_date, to_date = @to_date;";
 
         public ReservationSqlDAL(string connectionString)
         {
@@ -60,6 +61,55 @@ namespace Capstone.DAL
             }
 
             return result;
+        }
+
+        public int InsertReservation(int siteNum, string custName, DateTime arrivalDate, DateTime departureDate)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(SQL_InsertReservation, conn);
+
+                    cmd.Parameters.AddWithValue("@site_id", siteNum);
+                    cmd.Parameters.AddWithValue("@name", custName);
+                    cmd.Parameters.AddWithValue("@from_date", arrivalDate);
+                    cmd.Parameters.AddWithValue("@to_date", departureDate);
+                    cmd.Parameters.AddWithValue("@create_date", DateTime.Now);
+
+
+                    cmd = new SqlCommand(SQL_GrabReservationNumber, conn);
+
+                    cmd.Parameters.AddWithValue("@site_id", siteNum);
+                    cmd.Parameters.AddWithValue("@name", custName);
+                    cmd.Parameters.AddWithValue("@from_date", arrivalDate);
+                    cmd.Parameters.AddWithValue("@to_date", departureDate);
+                    cmd.Parameters.AddWithValue("@create_date", DateTime.Now);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        return Convert.ToInt32(reader["reservation_id"]);
+                    }
+
+                    return 0;
+                    //USE FOR TESTING
+                    //int count = cmd.ExecuteNonQuery();
+
+                    //if (count == 1)
+                    //{
+                    //    return true;
+                    //}
+
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
         }
     }
 }
