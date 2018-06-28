@@ -12,7 +12,7 @@ namespace Capstone.DAL
     public class ParkSqlDAL
     {
         private string connectionString;
-        private const string SQL_GetAllParks = @"SELECT * FROM park";
+        private const string SQL_GetAllParks = @"SELECT * FROM park ORDER BY park.name";
         private const string SQL_GetParkInfo = @"SELECT * FROM park WHERE park_id = @park_id;";
 
         public ParkSqlDAL(string connectionString)

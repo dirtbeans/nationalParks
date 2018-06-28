@@ -39,8 +39,8 @@ namespace Capstone.DAL
                         Campground c = new Campground();
                         
                         c.Name = Convert.ToString(reader["name"]);
-                        c.Open_from_mm = Convert.ToInt32(reader["open_from_mn"]); 
-                        c.Open_to_mm = Convert.ToInt32(reader["close_from_mn"]); 
+                        c.Open_from_mm = Convert.ToInt32(reader["open_from_mm"]); 
+                        c.Open_to_mm = Convert.ToInt32(reader["open_to_mm"]); 
                         c.Daily_fee = Convert.ToDecimal(reader["daily_fee"]); 
                       
 

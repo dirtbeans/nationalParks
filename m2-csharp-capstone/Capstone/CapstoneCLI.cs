@@ -43,7 +43,11 @@ namespace Capstone
                 parkChoice = Convert.ToInt32(Console.ReadLine());
             } while (parkChoice <= 0 && parkChoice >= parkList.Count);
 
-            CMDMenu(parkChoice);
+            if (parkChoice != 0)
+            {
+                CMDMenu(parkChoice);
+            }
+
         }
 
         public void CMDMenu(int parkChoice)
@@ -56,7 +60,7 @@ namespace Capstone
 
             do
             {
-                Console.WriteLine($"Select a Command" +
+                Console.Write($"Select a Command" +
                 $"\n\t1) View Campgrounds" +
                 $"\n\t2) Search for Reservation" +
                 $"\n\t3) Return to Previous Screen" +
@@ -68,7 +72,16 @@ namespace Capstone
             {
                 PrintAllCampgrounds();
             }
-            
+
+            if (cmdChoice == 2)
+            {
+                SearchMenu();
+            }
+        }
+
+        public void SearchMenu()
+        {
+
         }
 
         public void PrintAllCampgrounds()
@@ -76,14 +89,64 @@ namespace Capstone
             CampgroundSqlDAL cgDAL = new CampgroundSqlDAL(connectionString);
             List<Campground> campgroundList = cgDAL.GetAllCampgrounds();
 
+            Console.WriteLine("\n".PadRight(5) + "Name" + "Open".PadLeft(35) + 
+                "Close".PadLeft(11) + "Daily Fee".PadLeft(20));
             for (int i = 1; i <= campgroundList.Count; ++i)
             {
                 // print i + park.name;
-                Console.WriteLine($"#{i}\t{campgroundList[i - 1].Name}" +
-                    $"\t{campgroundList[i-1].Open_from_mm}" +
-                    $"\t{campgroundList[i-1].Open_to_mm}" +
-                    $"\t{campgroundList[i-1].Daily_fee}");
+                Console.WriteLine($"#{i.ToString().PadRight(3)}{campgroundList[i - 1].Name.ToString().PadRight(35)}" +
+                    $"{ConvertMonthToString(campgroundList[i-1].Open_from_mm).ToString().PadRight(10)}" +
+                    $"{ConvertMonthToString(campgroundList[i-1].Open_to_mm).ToString().PadRight(15)}" +
+                    $"{campgroundList[i-1].Daily_fee.ToString("C2").PadLeft(10)}");
             }
+            Console.ReadLine();
+        }
+
+        public string ConvertMonthToString(int monthInt)
+        {
+            string result = "ERROR";
+
+            switch (monthInt)
+            {
+                case 1:
+                    result = "January";
+                    break;
+                case 2:
+                    result = "February";
+                    break;
+                case 3:
+                    result = "March";
+                    break;
+                case 4:
+                    result = "April";
+                    break;
+                case 5:
+                    result = "May";
+                    break;
+                case 6:
+                    result = "June";
+                    break;
+                case 7:
+                    result = "July";
+                    break;
+                case 8:
+                    result = "August";
+                    break;
+                case 9:
+                    result = "September";
+                    break;
+                case 10:
+                    result = "October";
+                    break;
+                case 11:
+                    result = "November";
+                    break;
+                case 12:
+                    result = "December";
+                    break;
+            }
+                
+            return result;
         }
     }
 }
