@@ -8,12 +8,12 @@ namespace Capstone.Models
 {
     public class Site
     {
-        public int site_id { get; set; }
-        public int campground_id { get; set; }
-        public int site_number { get; set; }
-        public int max_occupancy { get; set; }
-        public bool accessible { get; set; }
-        public int max_rv_length { get; set; }
-        public bool utilities { get; set; }
+        public int Site_id { get; set; }
+        public int Campground_id { get; set; }
+        public int Site_number { get; set; }
+        public int Max_occupancy { get; set; }
+        public bool Accessible { get; set; }
+        public int Max_rv_length { get; set; }
+        public bool Utilities { get; set; }
     }
 }

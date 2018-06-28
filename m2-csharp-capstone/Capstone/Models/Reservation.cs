@@ -8,10 +8,10 @@ namespace Capstone.Models
 {
     public class Reservation
     {
-        public int reservation_id { get; set; }
-        public string name { get; set; }
-        public string from_date { get; set; } //date int or string?
-        public string to_date { get; set; } //date int or string?
-        public string create_date { get; set; } //date int or string?
+        public int Reservation_id { get; set; }
+        public string Name { get; set; }
+        public string From_date { get; set; } //date int or string?
+        public string To_date { get; set; } //date int or string?
+        public string Create_date { get; set; } //date int or string?
     }
 }
