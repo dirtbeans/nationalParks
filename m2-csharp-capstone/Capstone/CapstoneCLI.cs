@@ -26,12 +26,16 @@ namespace Capstone
             for (int i = 1; i <= parkList.Count; ++i)
             {
                 // print i + park.name;
+                Console.WriteLine($"{i}) {parkList[i-1].name}");
             }
-            // print q for quit
 
-            //while (choice is invalid) { 
-            // parkChoice = readline()
-            //}
+            Console.WriteLine("0) quit");
+
+            while (parkChoice != 0) { 
+                
+                Console.Write("Choice: ");
+                parkChoice = Convert.ToInt32(Console.ReadLine());
+            }
 
             CMDMenu();
         }
@@ -41,6 +45,7 @@ namespace Capstone
             Park park = parkSql.GetParkInfo(parkChoice);
 
             park.ToString();
+            Console.ReadLine();
 
 
         }
