@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Capstone.Models
 {
-    class ReadMe
+    class Campground
     {
-        // In the Models folder, create a .cs file for each each data model (one for each table)
-        // and delete this .cs
     }
 }
