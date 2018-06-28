@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Capstone.Models
+namespace Capstone
 {
-    public class Park
+    public class CapstoneCLI
     {
+
     }
 }
