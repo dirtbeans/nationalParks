@@ -71,15 +71,17 @@ namespace Capstone.DAL
                     cmd.Parameters.AddWithValue("@park_id", id);
 
                     SqlDataReader reader = cmd.ExecuteReader();
-                    reader.Read();
 
-                    result.Park_id = Convert.ToInt32(reader["park_id"]);
-                    result.Name = Convert.ToString(reader["name"]);
-                    result.Location = Convert.ToString(reader["location"]);
-                    result.Establish_date = Convert.ToDateTime(reader["establish_date"]);
-                    result.Area = Convert.ToInt32(reader["area"]);
-                    result.Visitors = Convert.ToInt32(reader["visitors"]);
-                    result.Description = Convert.ToString(reader["description"]);
+                    while(reader.Read())
+                    {
+                        result.Park_id = Convert.ToInt32(reader["park_id"]);
+                        result.Name = Convert.ToString(reader["name"]);
+                        result.Location = Convert.ToString(reader["location"]);
+                        result.Establish_date = Convert.ToDateTime(reader["establish_date"]);
+                        result.Area = Convert.ToInt32(reader["area"]);
+                        result.Visitors = Convert.ToInt32(reader["visitors"]);
+                        result.Description = Convert.ToString(reader["description"]);
+                    } 
                 }
             }
             catch (SqlException ex)
