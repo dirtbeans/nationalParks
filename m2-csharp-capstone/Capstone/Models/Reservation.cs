@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Capstone.Models
 {
-    class Reservation
+    public class Reservation
     {
+        public int reservation_id { get; set; }
+        public string name { get; set; }
+        public string from_date { get; set; } //date int or string?
+        public string to_date { get; set; } //date int or string?
+        public string create_date { get; set; } //date int or string?
     }
 }

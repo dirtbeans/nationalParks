@@ -8,5 +8,13 @@ namespace Capstone.Models
 {
     public class Campground
     {
+        public int campground_id { get; set; }
+        public int park_id { get; set; }
+        public string name { get; set; }
+        public int open_from_mm { get; set; }
+        public int open_to_mm { get; set; }
+        public decimal daily_fee { get; set; }
+
+
     }
 }
