@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Capstone.Models;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace Capstone.DAL
 {
@@ -14,9 +15,9 @@ namespace Capstone.DAL
         private const string SQL_GetAllParks = @"SELECT * FROM park";
         private const string SQL_GetParkInfo = @"SELECT * FROM park WHERE park_id = @park_id;";
 
-        public ParkSqlDAL(string databaseconnectionString)
+        public ParkSqlDAL(string connectionString)
         {
-            connectionString = databaseconnectionString;
+            this.connectionString = connectionString; //Properties.Settings.Default.Connectionstring;
         }
 
         public List<Park> GetAllParks()
@@ -36,13 +37,13 @@ namespace Capstone.DAL
                     while (reader.Read())
                     {
                         Park p = new Park();
-                        p.park_id = Convert.ToInt32(reader["park_id"]);
-                        p.name = Convert.ToString(reader["name"]);
-                        p.location = Convert.ToString(reader["location"]);
-                        p.establish_date = Convert.ToString(reader["establish_date"]);
-                        p.area = Convert.ToInt32(reader["area"]);
-                        p.visitors = Convert.ToInt32(reader["visitors"]);
-                        p.description = Convert.ToString(reader["description"]);
+                        p.Park_id = Convert.ToInt32(reader["park_id"]);
+                        p.Name = Convert.ToString(reader["name"]);
+                        p.Location = Convert.ToString(reader["location"]);
+                        p.Establish_date = Convert.ToDateTime(reader["establish_date"]);
+                        p.Area = Convert.ToInt32(reader["area"]);
+                        p.Visitors = Convert.ToInt32(reader["visitors"]);
+                        p.Description = Convert.ToString(reader["description"]);
 
                         result.Add(p);
                     }
@@ -72,13 +73,13 @@ namespace Capstone.DAL
                     SqlDataReader reader = cmd.ExecuteReader();
                     reader.Read();
 
-                    result.park_id = Convert.ToInt32(reader["park_id"]);
-                    result.name = Convert.ToString(reader["name"]);
-                    result.location = Convert.ToString(reader["location"]);
-                    result.establish_date = Convert.ToString(reader["establish_date"]);
-                    result.area = Convert.ToInt32(reader["area"]);
-                    result.visitors = Convert.ToInt32(reader["visitors"]);
-                    result.description = Convert.ToString(reader["description"]);
+                    result.Park_id = Convert.ToInt32(reader["park_id"]);
+                    result.Name = Convert.ToString(reader["name"]);
+                    result.Location = Convert.ToString(reader["location"]);
+                    result.Establish_date = Convert.ToDateTime(reader["establish_date"]);
+                    result.Area = Convert.ToInt32(reader["area"]);
+                    result.Visitors = Convert.ToInt32(reader["visitors"]);
+                    result.Description = Convert.ToString(reader["description"]);
                 }
             }
             catch (SqlException ex)

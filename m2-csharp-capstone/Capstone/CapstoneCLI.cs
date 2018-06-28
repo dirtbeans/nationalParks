@@ -5,13 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Capstone.Models;
 using Capstone.DAL;
+using System.Configuration;
 
 namespace Capstone
 {
     public class CapstoneCLI
     {
-        ParkSqlDAL parkSql = new ParkSqlDAL();
-        int parkChoice = 0;
+        private string connectionString;
+        int parkChoice = -1;
+
+        public CapstoneCLI()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["CapstoneDatabase"].ConnectionString;
+        }
 
         public void RunCLI()
         {
@@ -20,13 +26,13 @@ namespace Capstone
 
         public void ParkMenu()
         {
-            
+            ParkSqlDAL parkSql = new ParkSqlDAL(connectionString);
             List<Park> parkList = parkSql.GetAllParks();
 
             for (int i = 1; i <= parkList.Count; ++i)
             {
                 // print i + park.name;
-                Console.WriteLine($"{i}) {parkList[i-1].name}");
+                Console.WriteLine($"{i}) {parkList[i-1].Name}");
             }
 
             Console.WriteLine("0) quit");
@@ -42,7 +48,8 @@ namespace Capstone
 
         public void CMDMenu()
         {
-            Park park = parkSql.GetParkInfo(parkChoice);
+            ParkSqlDAL parkSql = new ParkSqlDAL(connectionString);
+            Park park = parkSql.GetParkInfo();
 
             park.ToString();
             Console.ReadLine();

@@ -16,8 +16,12 @@ namespace Capstone
             // Use this so that you don't need to copy your connection string all over your code!
             string connectionString = ConfigurationManager.ConnectionStrings["CapstoneDatabase"].ConnectionString;
 
-            // Main should only have a few lines of code
 
+
+            // Main should only have a few lines of code
+            CapstoneCLI cli = new CapstoneCLI();
+
+            cli.RunCLI();
         }
     }
 }
