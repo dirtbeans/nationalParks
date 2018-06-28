@@ -15,5 +15,19 @@ namespace Capstone.Models
         public int area { get; set; }
         public int visitors { get; set; }
         public string description { get; set; }
+
+        public override string ToString()
+        {
+           /* Acadia National Park 
+            * Location: Maine 
+            * Established: 02 / 26 / 1919 
+            * Area: 47,389 sq km 
+            * Annual Visitors: 2,563,129
+
+
+Covering most of Mount Desert Island and other coastal islands, Acadia features the tallest mountain on the Atlantic coast of the United States, granite peaks, ocean shoreline, woodlands, and lakes.There are freshwater, estuary, forest, and intertidal habitats.*/
+
+            return base.ToString();
+        }
     }
 }
