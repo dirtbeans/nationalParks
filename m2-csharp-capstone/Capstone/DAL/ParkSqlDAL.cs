@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Capstone.DAL
 {
-    class ParkSqlDAL
+    public class ParkSqlDAL
     {
+        public 
     }
 }
