@@ -8,16 +8,23 @@ namespace Capstone.Models
 {
     public class Park
     {
-        public int park_id { get; set; }
-        public string name { get; set; }
-        public string location { get; set; }
-        public string establish_date { get; set; } //date string or int?    
-        public int area { get; set; }
-        public int visitors { get; set; }
-        public string description { get; set; }
+        public int Park_id { get; set; }
+        public string Name { get; set; }
+        public string Location { get; set; }
+        public string Establish_date { get; set; } //date string or int?    
+        public int Area { get; set; }
+        public int Visitors { get; set; }
+        public string Description { get; set; }
 
         public override string ToString()
         {
+            string areaString = Area.ToString();
+            string visitorString = Visitors.ToString();
+
+            return $"{Name}\nLocation: {Location}\nEstablished: {Establish_date}\n{areaString} sq km\nAnnual Visitors: {visitorString}";
+               
+
+
            /* Acadia National Park 
             * Location: Maine 
             * Established: 02 / 26 / 1919 
@@ -27,7 +34,7 @@ namespace Capstone.Models
 
 Covering most of Mount Desert Island and other coastal islands, Acadia features the tallest mountain on the Atlantic coast of the United States, granite peaks, ocean shoreline, woodlands, and lakes.There are freshwater, estuary, forest, and intertidal habitats.*/
 
-            return base.ToString();
+          //  return base.ToString();
         }
     }
 }
