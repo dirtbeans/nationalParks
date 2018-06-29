@@ -12,7 +12,7 @@ namespace Capstone.DAL
     class SiteSqlDAL
     {
         private string connectionString;
-        private const string SQL_GetAvailableSites = @"SELECT s.site_number, s.max_occupancy, s.accessible, s.max_rv_length, s.utilities, s.campground_id, s.site_id FROM site s WHERE(s.campground_id =1) AND s.site_id IN (SELECT r.site_id FROM reservation r WHERE (('07/01/2018' < r.from_date AND '01/01/2000' < r.to_date ) OR ('07/01/2018' > r.from_date AND '01/01/2000' > r.to_date )));";
+        private const string SQL_GetAvailableSites = @"SELECT s.site_number, s.max_occupancy, s.accessible, s.max_rv_length, s.utilities, s.campground_id, s.site_id FROM site s WHERE(s.campground_id = @campground_id) AND s.site_id IN (SELECT r.site_id FROM reservation r WHERE ((@from_date < r.from_date AND @to_date < r.to_date ) OR (from_date > r.from_date AND to_date > r.to_date )));";
 
         public SiteSqlDAL(string connectionString)
         {
@@ -32,8 +32,8 @@ namespace Capstone.DAL
                     SqlCommand cmd = new SqlCommand(SQL_GetAvailableSites, conn);
 
                     cmd.Parameters.AddWithValue("@campground_id", campgroundNum);
-                    cmd.Parameters.AddWithValue("@date1", arrivalDate.ToShortDateString());
-                    cmd.Parameters.AddWithValue("@date2", departureDate.ToShortDateString());
+                    cmd.Parameters.AddWithValue("@from_date", arrivalDate.ToShortDateString());
+                    cmd.Parameters.AddWithValue("@to_date", departureDate.ToShortDateString());
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
