@@ -12,7 +12,7 @@ namespace Capstone.DAL
     class SiteSqlDAL
     {
         private string connectionString;
-        private const string SQL_GetAvailableSites = @"SELECT s.site_number, s.max_occupancy, s.accessible, s.max_rv_length, s.utilities, s.campground_id, s.site_id FROM site s WHERE(s.campground_id = @campground_id) AND s.site_id IN (SELECT r.site_id FROM reservation r WHERE ((@from_date < r.from_date AND @to_date < r.to_date ) OR (from_date > r.from_date AND to_date > r.to_date )));";
+        private const string SQL_GetAvailableSites = @"SELECT TOP 5 s.site_number, s.max_occupancy, s.accessible, s.max_rv_length, s.utilities, s.campground_id, s.site_id FROM site s WHERE(s.campground_id = @campground_id) AND s.site_id IN (SELECT r.site_id FROM reservation r WHERE ((@from_date < r.from_date AND @to_date < r.to_date ) OR (from_date > r.from_date AND to_date > r.to_date )));";
 
         public SiteSqlDAL(string connectionString)
         {

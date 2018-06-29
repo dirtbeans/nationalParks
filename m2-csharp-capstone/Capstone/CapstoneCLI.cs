@@ -118,7 +118,18 @@ namespace Capstone
 
             Console.WriteLine();
             Console.Write("Which campground (enter 0 to cancel)? ");
-            int campgroundNum = Convert.ToInt32(Console.ReadLine());
+            int campgroundNum;
+            bool isNumeric = int.TryParse(Console.ReadLine(), out campgroundNum);
+
+            while (!isNumeric || campgroundNum < 0)
+            {
+                Console.Write("Please enter a valid selection: ");
+                isNumeric = int.TryParse(Console.ReadLine(), out campgroundNum);
+                Console.WriteLine();
+
+
+            }
+
             if (campgroundNum == 0)
             {
                 ParkMenu();
@@ -131,26 +142,29 @@ namespace Capstone
                 DateTime departureDate = Convert.ToDateTime(Console.ReadLine());
 
                 SiteSqlDAL siteDAL = new SiteSqlDAL(connectionString);
+                CampgroundSqlDAL campgroundDAL = new CampgroundSqlDAL(connectionString);
                 List<Site> siteList = siteDAL.GetAvailableSites(campgroundNum, arrivalDate, departureDate);
 
                 Console.WriteLine();
-                Console.WriteLine("Campground Id".PadRight(10) + "Site No.".PadRight(20) + "Max Occup.".PadRight(10) +
-                    "Accessible?".PadLeft(10) + "RV Len".PadLeft(10) +"Utility".PadLeft(10)+ "Cost".PadLeft(20));
+                Console.WriteLine("Campground".PadRight(20) + "Site No.".PadRight(15) + "Max Occup.".PadRight(15) +
+                    "Accessible?".PadRight(15) + "RV Len".PadRight(15) +"Utility".PadRight(15)+ "Cost".PadRight(15));
+                Campground campground = campgroundDAL.GetCampground(campgroundNum);
+
                 foreach (Site site in siteList)
                 {
-                    string siteNa = site.Campground_id.ToString();
+                    //string siteNa = site.Campground_id.ToString();
                     string siteNo = site.Site_number.ToString();
                     string siteMO = site.Max_occupancy.ToString();
                     string siteA = site.Accessible.ToString();
                     string siteMRV = site.Max_rv_length.ToString();
                     string siteU = site.Utilities.ToString();
-                    
+                    string campNa = campground.Name.ToString();
 
-                    double lenghtOfStay = (departureDate - arrivalDate).TotalDays;
-                    double costOfStay = lenghtOfStay * 0;
-                    string costOfStayString = costOfStay.ToString();
+                    int lenghtOfStay = (int)(departureDate - arrivalDate).TotalDays;
+                    decimal costOfStay = lenghtOfStay * campground.Daily_fee;
+                    string costOfStayString = costOfStay.ToString("C");
 
-                    Console.WriteLine(siteNa.PadRight(5)+  siteNo.PadRight(5) + siteMO.PadRight(10) + siteA.PadLeft(10) + siteMRV.PadLeft(10) + siteU.PadLeft(20) +costOfStayString.PadLeft(5));
+                    Console.WriteLine(campNa.PadRight(20)+ siteNo.PadRight(20) + siteMO.PadRight(15) + siteA.PadRight(10) + siteMRV.PadRight(15) + siteU.PadRight(15) +costOfStayString.PadRight(5));
                 
                 }
                 ReservationMenu(arrivalDate, departureDate);
