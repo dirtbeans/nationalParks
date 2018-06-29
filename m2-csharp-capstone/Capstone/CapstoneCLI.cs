@@ -25,6 +25,8 @@ namespace Capstone
 
         public void ParkMenu()
         {
+            Console.WriteLine("National Parks");
+            Console.WriteLine();
             ParkSqlDAL parkSql = new ParkSqlDAL(connectionString);
             List<Park> parkList = parkSql.GetAllParks();
             int parkChoice;
@@ -40,7 +42,9 @@ namespace Capstone
 
             while (!done)
             {
+                Console.WriteLine();
                 Console.Write("Choice: ");
+                
                 parkChoice = Convert.ToInt32(Console.ReadLine());
 
                 while (parkChoice <= 0 && parkChoice >= parkList.Count) ;
@@ -48,6 +52,7 @@ namespace Capstone
                 if (parkChoice != 0)
                 {
                     CMDMenu(parkChoice);
+                   
                 }
                 else if (parkChoice == 0)
                 {

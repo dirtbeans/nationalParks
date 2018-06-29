@@ -21,7 +21,7 @@ namespace Capstone.Models
             string areaString = Area.ToString();
             string visitorString = Visitors.ToString();
 
-            return $"{Name}\nLocation: {Location}\nEstablished: {Establish_date.ToShortDateString()}\n{areaString} sq km\nAnnual Visitors: {visitorString}";
+            return $"{Name} National Park\n{"Location: ".PadRight(21)} {Location}\n{"Established: ".PadRight(21)} {Establish_date.ToShortDateString().PadRight(10)}\n{"Area: ".PadRight(21)} {areaString} sq km\n{"Annual Visitors: ".PadRight(21)} {visitorString.PadRight(10)} \n\n{Description}";
                
 
 
