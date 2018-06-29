@@ -14,7 +14,7 @@ namespace Capstone.DAL
         private string connectionString;
         private const string SQL_GetAllReservations = @"SELECT TOP FIVE  FROM sites WHERE;"; //uhhhhh
         private const string SQL_InsertReservation = @"INSERT INTO reservation VALUES (@site_id, @name, @from_date, @to_date, @create_date);";
-        private const string SQL_GrabReservationNumber = @"SELECT reservation_id FROM reservation WHERE site_id = @site_id, name = @name, from_date = @from_date, to_date = @to_date;";
+        private const string SQL_GrabReservationNumber = @"SELECT reservation_id FROM reservation WHERE site_id = @site_id AND name = @name AND from_date = @from_date AND to_date = @to_date;";
 
         public ReservationSqlDAL(string connectionString)
         {
@@ -79,6 +79,8 @@ namespace Capstone.DAL
                     cmd.Parameters.AddWithValue("@to_date", departureDate);
                     cmd.Parameters.AddWithValue("@create_date", DateTime.Now);
 
+                    cmd.ExecuteNonQuery();
+
 
                     cmd = new SqlCommand(SQL_GrabReservationNumber, conn);
 
@@ -88,6 +90,8 @@ namespace Capstone.DAL
                     cmd.Parameters.AddWithValue("@to_date", departureDate);
                     cmd.Parameters.AddWithValue("@create_date", DateTime.Now);
 
+
+                    // throwing exception
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
@@ -108,6 +112,8 @@ namespace Capstone.DAL
             }
             catch (SqlException ex)
             {
+                Console.WriteLine(ex.ToString());
+                Console.ReadLine();
                 throw;
             }
         }

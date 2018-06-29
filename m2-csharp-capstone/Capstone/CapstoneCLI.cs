@@ -91,6 +91,7 @@ namespace Capstone
             SiteSqlDAL siteDAL = new SiteSqlDAL(connectionString);
             List<Site> siteList = siteDAL.GetAvailableSites(campgroundNum, arrivalDate, departureDate);
 
+            Console.WriteLine();
             foreach (Site site in siteList)
             {
                 Console.WriteLine($"{site.Site_number}   {site.Max_occupancy}   " +
@@ -115,7 +116,9 @@ namespace Capstone
 
             int reservation_id = reserveDAL.InsertReservation(choice, name, arrivalDate, departureDate);
 
-            Console.WriteLine("The reservation has been made and the confirmation id is {" + reservation_id + "}");
+            Console.WriteLine("\nThe reservation has been made and the confirmation id is {" + reservation_id + "}");
+            Console.WriteLine("\nPress ENTER to exit...");
+            Console.ReadLine();
         }
 
         public void PrintAllCampgrounds()
