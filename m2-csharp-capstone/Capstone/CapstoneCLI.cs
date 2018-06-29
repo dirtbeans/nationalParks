@@ -105,31 +105,49 @@ namespace Capstone
 
             Console.Write("Which campground (enter 0 to cancel)? ");
             int campgroundNum = Convert.ToInt32(Console.ReadLine());
-            Console.Write("What is the arrival date? ");
-            DateTime arrivalDate = Convert.ToDateTime(Console.ReadLine());
-            Console.Write("What is the departure date? ");
-            DateTime departureDate = Convert.ToDateTime(Console.ReadLine());
-
-            SiteSqlDAL siteDAL = new SiteSqlDAL(connectionString);
-            List<Site> siteList = siteDAL.GetAvailableSites(campgroundNum, arrivalDate, departureDate);
-
-            Console.WriteLine();
-            foreach (Site site in siteList)
+            if (campgroundNum == 0)
             {
-                Console.WriteLine($"{site.Site_number}   {site.Max_occupancy}   " +
-                    $"{site.Accessible}  {site.Max_rv_length}  {site.Utilities}");
+                ParkMenu();
             }
-            ReservationMenu(arrivalDate, departureDate);
+            else
+            {
+                Console.Write("What is the arrival date? ");
+                DateTime arrivalDate = Convert.ToDateTime(Console.ReadLine());
+                Console.Write("What is the departure date? ");
+                DateTime departureDate = Convert.ToDateTime(Console.ReadLine());
+
+                SiteSqlDAL siteDAL = new SiteSqlDAL(connectionString);
+                List<Site> siteList = siteDAL.GetAvailableSites(campgroundNum, arrivalDate, departureDate);
+
+                Console.WriteLine();
+                Console.WriteLine("Site No".PadRight(5) + "Max Occ".PadRight(10) +
+                    "Accessible".PadLeft(10) + "Max RV length".PadLeft(10) + "Daily Fee".PadLeft(20));
+                foreach (Site site in siteList)
+                {
+                    Console.WriteLine($"#{site.Site_number}  {site.Max_occupancy}   " +
+                        $"{site.Accessible}  {site.Max_rv_length}  {site.Utilities}");
+                    //need to format better
+                }
+                ReservationMenu(arrivalDate, departureDate);
+            }
         }
 
         public void ReservationMenu(DateTime arrivalDate, DateTime departureDate)
         {
             Console.Write("Which site should be reserved (enter 0 to cancel)? ");
             int siteChoice = Convert.ToInt32(Console.ReadLine());
-            Console.Write("What name should the reservation be made under? ");
-            string customerName = Console.ReadLine();
-
-            ReserveCampsite(siteChoice, customerName, arrivalDate, departureDate);
+            string customerName = "";
+            if (siteChoice == 0)
+            {
+                SearchMenu();
+            }
+            else
+            {
+                Console.Write("What name should the reservation be made under? ");
+                customerName = Console.ReadLine();
+                ReserveCampsite(siteChoice, customerName, arrivalDate, departureDate);
+            }
+           
         }
 
         public void ReserveCampsite(int choice, string name, DateTime arrivalDate, DateTime departureDate)
@@ -150,6 +168,7 @@ namespace Capstone
 
             Console.WriteLine("\n".PadRight(5) + "Name" + "Open".PadLeft(35) +
                 "Close".PadLeft(11) + "Daily Fee".PadLeft(20));
+
             for (int i = 1; i <= campgroundList.Count; ++i)
             {
                 // print i + park.name;
