@@ -35,7 +35,7 @@ namespace Capstone.DAL
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    while (reader.Read())  //is this campground_id passed?
+                    while (reader.Read())
                     {
 
                         Reservation r = new Reservation();
@@ -48,7 +48,7 @@ namespace Capstone.DAL
                         s.Max_occupancy = Convert.ToInt32(reader["area"]);
                         s.Max_rv_length = Convert.ToInt32(reader["area"]);
                         c.Daily_fee = Convert.ToDecimal(reader["daily_fee"]);
-                        //cost per stay
+                        
                         //daily fee in campgrounds gonna have to do 2 joins
 
                         result.Add(r);

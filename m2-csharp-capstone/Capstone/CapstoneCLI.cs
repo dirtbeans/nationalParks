@@ -44,12 +44,20 @@ namespace Capstone
             {
                 Console.WriteLine();
                 Console.Write("Choice: ");
+
                 
-                parkChoice = Convert.ToInt32(Console.ReadLine());
+                bool isNumeric = int.TryParse(Console.ReadLine(), out parkChoice);
 
-                while (parkChoice <= 0 && parkChoice >= parkList.Count) ;
+                while (!isNumeric || parkChoice > parkList.Count|| parkChoice <0)
+                {
+                    Console.Write("Please enter a valid selection: ");
+                    isNumeric = int.TryParse(Console.ReadLine(), out parkChoice);
+                    Console.WriteLine();
 
-                if (parkChoice != 0)
+                    
+                }
+
+                if (parkChoice <= parkList.Count && parkChoice>0)
                 {
                     CMDMenu(parkChoice);
                    
@@ -59,9 +67,7 @@ namespace Capstone
                     Environment.Exit(0);
                 }
             }
-
         }
-
         public void CMDMenu(int parkChoice)
         {
             ParkSqlDAL parkSql = new ParkSqlDAL(connectionString);
@@ -72,11 +78,11 @@ namespace Capstone
 
             while (!done)
             {
-
+                Console.WriteLine();
                 Console.Write($"Select a Command" +
                 $"\n\t1) View Campgrounds" +
                 $"\n\t2) Search for Reservation" +
-                $"\n\t3) Return to Previous Screen" +
+                $"\n\t3) Return to Previous Screen" +             
                 $"\n\tChoice: ");
                 cmdChoice = Console.ReadLine();
 
@@ -89,6 +95,7 @@ namespace Capstone
 
                 if (cmdChoice == "1")
                 {
+                    Console.WriteLine();
                     PrintAllCampgrounds();
                 }
                 else if (cmdChoice == "2")
@@ -106,8 +113,10 @@ namespace Capstone
 
         public void SearchMenu()
         {
+            Console.WriteLine();
             PrintAllCampgrounds();
 
+            Console.WriteLine();
             Console.Write("Which campground (enter 0 to cancel)? ");
             int campgroundNum = Convert.ToInt32(Console.ReadLine());
             if (campgroundNum == 0)
@@ -125,13 +134,24 @@ namespace Capstone
                 List<Site> siteList = siteDAL.GetAvailableSites(campgroundNum, arrivalDate, departureDate);
 
                 Console.WriteLine();
-                Console.WriteLine("Site No".PadRight(5) + "Max Occ".PadRight(10) +
-                    "Accessible".PadLeft(10) + "Max RV length".PadLeft(10) + "Daily Fee".PadLeft(20));
+                Console.WriteLine("Campground Id".PadRight(10) + "Site No.".PadRight(20) + "Max Occup.".PadRight(10) +
+                    "Accessible?".PadLeft(10) + "RV Len".PadLeft(10) +"Utility".PadLeft(10)+ "Cost".PadLeft(20));
                 foreach (Site site in siteList)
                 {
-                    Console.WriteLine($"#{site.Site_number}  {site.Max_occupancy}   " +
-                        $"{site.Accessible}  {site.Max_rv_length}  {site.Utilities}");
-                    //need to format better
+                    string siteNa = site.Campground_id.ToString();
+                    string siteNo = site.Site_number.ToString();
+                    string siteMO = site.Max_occupancy.ToString();
+                    string siteA = site.Accessible.ToString();
+                    string siteMRV = site.Max_rv_length.ToString();
+                    string siteU = site.Utilities.ToString();
+                    
+
+                    double lenghtOfStay = (departureDate - arrivalDate).TotalDays;
+                    double costOfStay = lenghtOfStay * 0;
+                    string costOfStayString = costOfStay.ToString();
+
+                    Console.WriteLine(siteNa.PadRight(5)+  siteNo.PadRight(5) + siteMO.PadRight(10) + siteA.PadLeft(10) + siteMRV.PadLeft(10) + siteU.PadLeft(20) +costOfStayString.PadLeft(5));
+                
                 }
                 ReservationMenu(arrivalDate, departureDate);
             }
@@ -139,6 +159,7 @@ namespace Capstone
 
         public void ReservationMenu(DateTime arrivalDate, DateTime departureDate)
         {
+            Console.WriteLine();
             Console.Write("Which site should be reserved (enter 0 to cancel)? ");
             int siteChoice = Convert.ToInt32(Console.ReadLine());
             string customerName = "";
