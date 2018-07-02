@@ -45,22 +45,18 @@ namespace Capstone
                 Console.WriteLine();
                 Console.Write("Choice: ");
 
-                
                 bool isNumeric = int.TryParse(Console.ReadLine(), out parkChoice);
 
-                while (!isNumeric || parkChoice > parkList.Count|| parkChoice <0)
+                while (!isNumeric || parkChoice > parkList.Count || parkChoice < 0)
                 {
                     Console.Write("Please enter a valid selection: ");
                     isNumeric = int.TryParse(Console.ReadLine(), out parkChoice);
                     Console.WriteLine();
-
-                    
                 }
 
-                if (parkChoice <= parkList.Count && parkChoice>0)
+                if (parkChoice <= parkList.Count && parkChoice > 0)
                 {
                     CMDMenu(parkChoice);
-                   
                 }
                 else if (parkChoice == 0)
                 {
@@ -82,7 +78,7 @@ namespace Capstone
                 Console.Write($"Select a Command" +
                 $"\n\t1) View Campgrounds" +
                 $"\n\t2) Search for Reservation" +
-                $"\n\t3) Return to Previous Screen" +             
+                $"\n\t3) Return to Previous Screen" +
                 $"\n\tChoice: ");
                 cmdChoice = Console.ReadLine();
 
@@ -110,7 +106,6 @@ namespace Capstone
             }
         }
 
-
         public void SearchMenu()
         {
             Console.WriteLine();
@@ -126,8 +121,6 @@ namespace Capstone
                 Console.Write("Please enter a valid selection: ");
                 isNumeric = int.TryParse(Console.ReadLine(), out campgroundNum);
                 Console.WriteLine();
-
-
             }
 
             if (campgroundNum == 0)
@@ -147,7 +140,7 @@ namespace Capstone
 
                 Console.WriteLine();
                 Console.WriteLine("Campground".PadRight(20) + "Site No.".PadRight(15) + "Max Occup.".PadRight(15) +
-                    "Accessible?".PadRight(15) + "RV Len".PadRight(15) +"Utility".PadRight(15)+ "Cost".PadRight(15));
+                    "Accessible?".PadRight(15) + "RV Len".PadRight(15) + "Utility".PadRight(15) + "Cost".PadRight(15));
                 Campground campground = campgroundDAL.GetCampground(campgroundNum);
 
                 foreach (Site site in siteList)
@@ -164,8 +157,7 @@ namespace Capstone
                     decimal costOfStay = lenghtOfStay * campground.Daily_fee;
                     string costOfStayString = costOfStay.ToString("C");
 
-                    Console.WriteLine(campNa.PadRight(20)+ siteNo.PadRight(20) + siteMO.PadRight(15) + siteA.PadRight(10) + siteMRV.PadRight(15) + siteU.PadRight(15) +costOfStayString.PadRight(5));
-                
+                    Console.WriteLine(campNa.PadRight(20) + siteNo.PadRight(20) + siteMO.PadRight(15) + siteA.PadRight(10) + siteMRV.PadRight(15) + siteU.PadRight(15) + costOfStayString.PadRight(5));
                 }
                 ReservationMenu(arrivalDate, departureDate);
             }
@@ -187,7 +179,6 @@ namespace Capstone
                 customerName = Console.ReadLine();
                 ReserveCampsite(siteChoice, customerName, arrivalDate, departureDate);
             }
-           
         }
 
         public void ReserveCampsite(int choice, string name, DateTime arrivalDate, DateTime departureDate)
@@ -262,7 +253,6 @@ namespace Capstone
                     result = "December";
                     break;
             }
-
             return result;
         }
     }

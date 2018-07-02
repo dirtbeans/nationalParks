@@ -14,7 +14,5 @@ namespace Capstone.Models
         public int Open_from_mm { get; set; }
         public int Open_to_mm { get; set; }
         public decimal Daily_fee { get; set; }
-
-
     }
 }

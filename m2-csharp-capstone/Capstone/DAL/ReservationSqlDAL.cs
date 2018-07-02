@@ -48,8 +48,6 @@ namespace Capstone.DAL
                         s.Max_occupancy = Convert.ToInt32(reader["area"]);
                         s.Max_rv_length = Convert.ToInt32(reader["area"]);
                         c.Daily_fee = Convert.ToDecimal(reader["daily_fee"]);
-                        
-                        //daily fee in campgrounds gonna have to do 2 joins
 
                         result.Add(r);
                     }
@@ -81,7 +79,6 @@ namespace Capstone.DAL
 
                     cmd.ExecuteNonQuery();
 
-
                     cmd = new SqlCommand(SQL_GrabReservationNumber, conn);
 
                     cmd.Parameters.AddWithValue("@site_id", siteNum);
@@ -90,24 +87,13 @@ namespace Capstone.DAL
                     cmd.Parameters.AddWithValue("@to_date", departureDate);
                     cmd.Parameters.AddWithValue("@create_date", DateTime.Now);
 
-
-                    // throwing exception
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
                         return Convert.ToInt32(reader["reservation_id"]);
                     }
-
                     return 0;
-                    //USE FOR TESTING
-                    //int count = cmd.ExecuteNonQuery();
-
-                    //if (count == 1)
-                    //{
-                    //    return true;
-                    //}
-
                 }
             }
             catch (SqlException ex)

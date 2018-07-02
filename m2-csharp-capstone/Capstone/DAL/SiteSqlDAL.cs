@@ -44,7 +44,7 @@ namespace Capstone.DAL
                         s.Campground_id = Convert.ToInt32(reader["campground_id"]);
                         s.Site_number = Convert.ToInt32(reader["site_number"]);
                         s.Max_occupancy = Convert.ToInt32(reader["max_occupancy"]);
-                        s.Accessible= Convert.ToBoolean(reader["accessible"]);
+                        s.Accessible = Convert.ToBoolean(reader["accessible"]);
                         s.Max_rv_length = Convert.ToInt32(reader["max_rv_length"]);
                         s.Utilities = Convert.ToBoolean(reader["utilities"]);
 
@@ -56,7 +56,6 @@ namespace Capstone.DAL
             {
                 throw;
             }
-
             return result;
         }
     }

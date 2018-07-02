@@ -72,7 +72,7 @@ namespace Capstone.DAL
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    while(reader.Read())
+                    while (reader.Read())
                     {
                         result.Park_id = Convert.ToInt32(reader["park_id"]);
                         result.Name = Convert.ToString(reader["name"]);
@@ -81,14 +81,13 @@ namespace Capstone.DAL
                         result.Area = Convert.ToInt32(reader["area"]);
                         result.Visitors = Convert.ToInt32(reader["visitors"]);
                         result.Description = Convert.ToString(reader["description"]);
-                    } 
+                    }
                 }
             }
             catch (SqlException ex)
             {
                 throw;
             }
-
             return result;
         }
     }

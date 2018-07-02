@@ -17,7 +17,7 @@ namespace Capstone.DAL
 
         public CampgroundSqlDAL(string connectionString)
         {
-            this.connectionString = connectionString; 
+            this.connectionString = connectionString;
         }
         public Campground GetCampground(int campground_id)
         {
@@ -29,7 +29,7 @@ namespace Capstone.DAL
                 cmd.Parameters.AddWithValue("@campground_id", campground_id);
 
                 SqlDataReader reader = cmd.ExecuteReader();
-                if(reader.HasRows)
+                if (reader.HasRows)
                 {
                     reader.Read();
                     return MapResultToCampground(reader);
@@ -54,9 +54,7 @@ namespace Capstone.DAL
 
                     while (reader.Read())
                     {
-
                         Campground c = MapResultToCampground(reader);
-               
                         result.Add(c);
                     }
                 }
@@ -82,5 +80,5 @@ namespace Capstone.DAL
             return c;
         }
     }
-    
+
 }
